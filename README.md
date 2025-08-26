@@ -584,17 +584,17 @@ Sua principal função é melhorar a velocidade e a disponibilidade de entrega d
 
 Ao usar o CloudFront, os arquivos são armazenados em pontos de presença globais da AWS, chamados de "edge locations". Quando um usuário solicita um arquivo, o CloudFront direciona essa solicitação para o servidor de *edge location* mais próximo do usuário, o que reduz a latência e melhora a velocidade de carregamento do conteúdo. Além disso, o CloudFront ajuda a reduzir a carga nos servidores de origem, pois ele armazena em cache os arquivos e responde diretamente a solicitações subsequentes que podem ser atendidas a partir desses caches.
 
-**10.1)** Fala uma busca por **CloudFront** na lupa do console.
+**10.1)** Fala uma busca por **CloudFront** na lupa do console;
 
-**10.2)** Clique em **Create Distribution** (botão laranja).
+**10.2)** Clique em **Create Distribution** (botão laranja);
 
-**10.3)** No campo **Origin Domain** você seleciona o bucket criado no Passo-03, e daí o console vai sugerir uma adaptação **Use website endpoint**, daí você pode confirmar no botão. O link resultante deve ser algo do tipo **arquiteturacorp.s3-website-us-east-1.amazonaws.com** e o protocolo marcado será o **HTTP**. Não teremos o **HTTPS** porque teríamos que ter um Certificado sobre o DNS externo que você compraria.
+**10.3)** No campo **Origin Domain** você seleciona o bucket criado no Passo-03, e daí o console vai sugerir uma adaptação **Use website endpoint**, daí você pode confirmar no botão. O link resultante deve ser algo do tipo **arquiteturacorp.s3-website-us-east-1.amazonaws.com** e o protocolo marcado será o **HTTP**. Não teremos o **HTTPS** porque teríamos que ter um Certificado sobre o DNS externo que você compraria;
 
-**10.4)** Na opção **Web Application Firewall (WAF)** opte por **Enable security protections**.
+**10.4)** Na opção **Web Application Firewall (WAF)** opte por **Enable security protections**;
 
-**10.5)** Em **Default root object - optional**, aponte para o arquivo **index.html**. Com isso, o CloudFonte vai distribuir o seu pequeno servidor.
+**10.5)** Em **Default root object - optional**, aponte para o arquivo **index.html**. Com isso, o CloudFonte vai distribuir o seu pequeno servidor;
 
-**10.6)** Confirme tudo no botão laranja.
+**10.6)** Confirme tudo no botão laranja;
 
 As demais configurações, como em **Viewer** e **Viewer protocol policy**, você poderia marcar a opçção **Redirect HTTP to HTTPS** caso você quisesse forçar toda a conexão do seu site para HTTPS, mas para isso, você precisa do certificado validado sobre o seu domínio comprado na goDaddy, por exemplo.
 
