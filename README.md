@@ -196,7 +196,7 @@ Um bastion host pode ser configurado para centralizar a administração e as fer
 
 O bastion host permite que você acesse instâncias internas sem expor diretamente seus endereços IP privados à Internet, o que pode ser útil para cenários em que a visibilidade da rede é limitada.
 
-# Por que criar um EC2 no seu Projeto?
+## Por que criar um EC2 no seu Projeto?
 
 Amazon Elastic Compute Cloud (EC2) é um serviço de computação em nuvem oferecido pela Amazon Web Services (AWS) que fornece capacidade de processamento escalável na nuvem. Há várias vantagens em usar o EC2 na AWS, tornando-o uma escolha popular para hospedar aplicativos e executar cargas de trabalho em nuvem. Algumas das principais vantagens incluem:
 
@@ -284,21 +284,21 @@ Ao usar o RDS em uma configuração de várias zonas de disponibilidade (Multi-A
 
 O RDS é compatível com muitas ferramentas e aplicativos que são usados com bancos de dados relacionais, facilitando a migração de aplicações existentes para a nuvem.
 
-## Sugestão de fluxo, porém pago e não obrigatório:
+## Sugestão de fluxo para Route 53, porém pago e não obrigatório:
 
 1) Criar um domínio (exemplo, goDaddy ou [RegistroBr](https://registro.br/))
 
-2) Registrar o domínio recém criado no Zonas de Hospedagem do Route 53 (custo de U$0,50/mês). Para isso, cria-se um Route 53 (essa etapa não poderá ser executada no Leaner Lab). Cada domínio criado no AWS gera um custo real de U$0,50/mês (valor de 2023) e por isso, não está disponível no Leaner Lab. Já no domínio particular da AWS, sim é possível criar um Route 53, mas precisa ter um cartão de crédito cadastrado e assumir o custo. Usando o site [goDaddy](https://www.godaddy.com/) (que é um site criador de domínios pagos), o professor criou o domínio **aulaarquitetura.com** para testes. Mais detalhes sobre isso, fale com ele.
+2) Registrar o domínio recém criado no Zonas de Hospedagem do Route 53 (custo de U$0,50/mês). Para isso, cria-se um Route 53 (essa etapa não poderá ser executada no Leaner Lab). Cada domínio criado no AWS gera um custo real de U$0,50/mês [Preços](https://aws.amazon.com/pt/route53/pricing/) e por isso, não está disponível no Leaner Lab. Já no domínio particular da AWS com cartão de crédito cadastrado, sim é possível criar um Route 53 e assumir o custo.
+   
+3) Criar um certificado https (essa etapa não poderá ser executada no Leaner Lab de aluno).
 
-3) Criar um certificado https (essa etapa não poderá ser executada no Leaner Lab) para o domínio goDaddy.
+3.1) Digite **certificate manager** na lupa do console da AWS;
 
-3.1) Digite **certificate manager** na lupa do console da AWS
+3.2) No menu vertical esquerdo, clique em **Solicitar certificado** e depois clique em **Solicitar um certificado público**;
 
-3.2) No menu vertical esquerdo, clique em **Solicitar certificado** e depois clique em **Solicitar um certificado público**
+3.3) No campo **Nome de domínio totalmente qualificado**, você vai colar o domínio que criaria na etapa Passo-02, que nesse exemplo foi **aulaarquitetura.com**;
 
-3.3) No campo **Nome de domínio totalmente qualificado**, você vai colar o domínio que criaria na etapa Passo-02, que nesse exemplo foi **aulaarquitetura.com**
-
-4) Regitrar os nomes dos servidores Route 53 no GoDaddy
+4) Regitrar os nomes dos servidores Route 53 no GoDaddy;
 
 5) Seguir os passos abaixo.
 
@@ -309,53 +309,53 @@ O RDS é compatível com muitas ferramentas e aplicativos que são usados com ba
 
 **1.2)** Clique no botão laranja CRIAR;
 
-**1.3)** Selecione **Somente VPC**.
+**1.3)** Selecione **Somente VPC**;
 
-**1.4)** No campo **Tag de nome** digite **VPC_Arquitetura_Corp**.
+**1.4)** No campo **Tag de nome** digite **VPC_Arquitetura_Corp**;
 
-**1.5)** Bloco CIDR IPV4 digite **192.168.0.0/22**
+**1.5)** Bloco CIDR IPV4 digite **192.168.0.0/22**;
 
 **1.6)** As demais opções, você não precisa mexer e basta confirmar no botão laranja.
 
 # Passo-02: Criando as sub-redes
 ## sub-rede pública
 
-**2.1)** No menu vertical da VPC, clique em **sub-redes** e então, clique no botão laranja **Criar sub-redes** e aponte para a VPC corporativa que acabou de criar **VPC_Arquitetura_Corp**.
+**2.1)** No menu vertical da VPC, clique em **sub-redes** e então, clique no botão laranja **Criar sub-redes** e aponte para a VPC corporativa que acabou de criar **VPC_Arquitetura_Corp**;
 
-**2.2)** No campo **Nome da sub-rede** coloque **Sub_Publica_a**.
+**2.2)** No campo **Nome da sub-rede** coloque **Sub_Publica_a**;
 
-**2.3)** Em **Zona de disponibilidade** deixe **us-east-1a**.
+**2.3)** Em **Zona de disponibilidade** deixe **us-east-1a**;
 
-**2.4)** Em **Bloco CIDR IPV4** coloque um IP que esteja dentro da faixa da rede da VPC que você criou, então, **digite 192.168.0.0/24**. Essa faixa está dentro da faixa maior 192.168.0.0/22. Vamos discutir o mapa de endereçamento numa instrução futura. Aguente firme! Clique no botão laranja.
+**2.4)** Em **Bloco CIDR IPV4** coloque um IP que esteja dentro da faixa da rede da VPC que você criou, então, **digite 192.168.0.0/24**. Essa faixa está dentro da faixa maior 192.168.0.0/22. Vamos discutir o mapa de endereçamento numa instrução futura. Aguente firme! Clique no botão laranja;
 
 ## sub-rede privada
 
-**2.5)** Repetindo os passos para criar a Rede Privada, no menu vertical da VPC, clique em **sub-redes** e então, aponte para a VPC corporativa que acabou de criar **VPC_Arquitetura_Corp**.
+**2.5)** Repetindo os passos para criar a Rede Privada, no menu vertical da VPC, clique em **sub-redes** e então, aponte para a VPC corporativa que acabou de criar **VPC_Arquitetura_Corp**;
 
 **2.6)** No campo **Nome da sub-rede** coloque **Sub_Privada_b**. Note que você está apontado para uma zona diferente da sua sub-rede pública. É uma estratégia para 
-[alta disponibilidade](https://github.com/agodoi/VocabularioAWS).
+[alta disponibilidade](https://github.com/agodoi/VocabularioAWS);
 
-**2.7)** Em **Zona de disponibilidade** deixe **us-east-1b**.
+**2.7)** Em **Zona de disponibilidade** deixe **us-east-1b**;
 
-**2.8)** Em **Bloco CIDR IPV4** coloque um IP que esteja dentro da faixa da rede da VPC que você criou, então, **digite 192.168.1.0/24**. Essa faixa está dentro da faixa maior 192.168.0.0/22. Novamente, vamos discutir o mapa de endereçamento numa instrução futura.
+**2.8)** Em **Bloco CIDR IPV4** coloque um IP que esteja dentro da faixa da rede da VPC que você criou, então, **digite 192.168.1.0/24**. Essa faixa está dentro da faixa maior 192.168.0.0/22. Novamente, vamos discutir o mapa de endereçamento numa instrução futura;
 
 # Passo-03: Criando Tabelas de Rotas
 
 A sua sub-rede pública ainda não sabe como chegar na Internet. Para isso, precisamos de um **IGW (Internet Gateway)**, certo? E nem a privada sabe chegar na Internet. Para isso precisamos de quem? Se você pensou em **NAT**, acertou!. IGW resolve a Internet para a pública e a NAT resolve para Internet para a privada.
 
-**3.1)** No menu vertical da VPC, procure por **Tabela de rotas**. Daí você vai observar que já existe uma Tabela de Rotas sem nome. Essa tabela sem nome é da sua VPC recém criada. Isso é normal, pois todas as vezes que você cria uma VPC nova, já carrega uma Tabela de Rotas **default** e sem nome. Só para organizar melhor, passe o mouse na coluna **Name** dessa Tabela de Rotas sem nome, veja um lápis e daí você digita **TabRota_Default_VPC_ArqCorp**.
+**3.1)** No menu vertical da VPC, procure por **Tabela de rotas**. Daí você vai observar que já existe uma Tabela de Rotas sem nome. Essa tabela sem nome é da sua VPC recém criada. Isso é normal, pois todas as vezes que você cria uma VPC nova, já carrega uma Tabela de Rotas **default** e sem nome. Só para organizar melhor, passe o mouse na coluna **Name** dessa Tabela de Rotas sem nome, veja um lápis e daí você digita **TabRota_Default_VPC_ArqCorp**;
 
 E agora, vamos criar duas novas Tabelas de Rotas, sendo uma para a subnet pública e outra para a subnet privada. Chique?
 
-**3.2)** Clique em **Criar tabela de rotas**, e em **nome** coloque **TabRota_Publica_ArqCorp** e selecione a VPC recém criada e confirme no botão laranja.
+**3.2)** Clique em **Criar tabela de rotas**, e em **nome** coloque **TabRota_Publica_ArqCorp** e selecione a VPC recém criada e confirme no botão laranja;
 
-**3.3)** Faça o mesmo para a sua subnet privada. Clique em **Criar tabela de rotas**, e em **nome** coloque **TabRota_Privada_ArqCorp** e selecione a VPC recém criada e confirme no botão laranja.
+**3.3)** Faça o mesmo para a sua subnet privada. Clique em **Criar tabela de rotas**, e em **nome** coloque **TabRota_Privada_ArqCorp** e selecione a VPC recém criada e confirme no botão laranja;
 
 Até agora, você só criou os nomes das Tabelas de Rotas que não sabem o que fazer ainda. Elas apenas estão dentro da sua VPC recém criada **VPC_Arquitetura_Corp**.
 
-**3.4)** Vamos agora associar as Tabelas de Rotas com as sub-redes propriamente ditas.
+**3.4)** Vamos agora associar as Tabelas de Rotas com as sub-redes propriamente ditas;
 
-**3.4.1)** Clique no link azul da tabela de rotas privada **TabRota_Privada_ArqCorp**, vá na aba **Associação de sub-rede**, clique no botão **Editar associações de sub-rede** e selecione a sub-rede privada **Sub_Privada_b** e confirme no botão laranja.
+**3.4.1)** Clique no link azul da tabela de rotas privada **TabRota_Privada_ArqCorp**, vá na aba **Associação de sub-rede**, clique no botão **Editar associações de sub-rede** e selecione a sub-rede privada **Sub_Privada_b** e confirme no botão laranja;
 
 **3.4.2)** Faça o mesmo para a tabela de rotas pública **TabRota_Publica_ArqCorp**, clicando em seu link azul, depois indo na aba **Associação de sub-rede**, clicando no botão **Editar associações de sub-rede** e selecione a sub-rede privada **Sub_Publica_a** e confirme no botão laranja.
 
@@ -366,11 +366,11 @@ Portanto, agora suas Tabelas de Rotas já possuem as devidas sub-redes.
 
 Esse elemento de rede resolve como sua rede pública vai encontrar a Internet.
 
-**4.1)** Para criar uma saída para Internet da sub-rede pública, vá no menu vertical esquerdo da VPC, clique em **Gateways da Internet**, depois **Criar gateway da Internet** e em **Tag name** digite **IGW_ArqCorp** e confirme no botão laranja. Cuidado agora! Você precisa associar o seu IGW à VPC_Arquitetura_Corp. Então clique no botão verde que vai aparecer na barra superior ou volte no menu vertical esquerdo, liste o seu **Gateways da Internet**, vá no botão **Ações**, selecione **Associar à VPC** e escolha a VPC recém criada e confirma no botão laranja.
+**4.1)** Para criar uma saída para Internet da sub-rede pública, vá no menu vertical esquerdo da VPC, clique em **Gateways da Internet**, depois **Criar gateway da Internet** e em **Tag name** digite **IGW_ArqCorp** e confirme no botão laranja. Cuidado agora! Você precisa associar o seu IGW à VPC_Arquitetura_Corp. Então clique no botão verde que vai aparecer na barra superior ou volte no menu vertical esquerdo, liste o seu **Gateways da Internet**, vá no botão **Ações**, selecione **Associar à VPC** e escolha a VPC recém criada e confirma no botão laranja;
 
 Agora, vamos atualizar as rotas de entrada e saída ou regras de entrada e saída.
 
-**4.2)** Volte na tabela de rotas **TabRota_Publica_ArqCorp** para indicar as regras de entrada e saída da sua VPC. Então, vá no menu esquerdo vertical, clique em **Tabela de Rotas** e escolha a **TabRota_Publica_ArqCorp**, e depois, vá na aba **Rotas**. Já existe uma rota padrão interna 192.168.0.0/22 mas isso não dá acesso externo à sua VPC e sim, somente acesso interno. Clique em **Editar rota**, depois **Adicionar rota** e selecione em **destino** 0.0.0.0/0 (que significa qualquer lugar) e em **alvo** você seleciona **Gateway da Internet** e daí vai aparecer a sua o **IGW_ArqCorp**, daí vc o seleciona e coloque para salvar no botão laranja.
+**4.2)** Volte na tabela de rotas **TabRota_Publica_ArqCorp** para indicar as regras de entrada e saída da sua VPC. Então, vá no menu esquerdo vertical, clique em **Tabela de Rotas** e escolha a **TabRota_Publica_ArqCorp**, e depois, vá na aba **Rotas**. Já existe uma rota padrão interna 192.168.0.0/22 mas isso não dá acesso externo à sua VPC e sim, somente acesso interno. Clique em **Editar rota**, depois **Adicionar rota** e selecione em **destino** 0.0.0.0/0 (que significa qualquer lugar) e em **alvo** você seleciona **Gateway da Internet** e daí vai aparecer a sua o **IGW_ArqCorp**, daí vc o seleciona e coloque para salvar no botão laranja;
 
 Portanto, todas as instância com IP público dentro do sub-rede pública terão conexão com a Internet a partir de agora. Caso um EC2 seja criado nessa sub-rede com IP privado, ainda continuará sem conexão externa.
 
@@ -380,9 +380,9 @@ Nos próxmos passos, você terá que associar um EC2 (que será público) à ess
 # Passo-05: Criando o NAT
 Agora vamos resolver o acesso à Internet da sub-rede privada, porém, acesso de saída. Não de entrada, por enquanto.
 
-**5.1)** No menu vertical da VPC, clique na opção **Gateways NAT**, depois clique no botão **Criar gateway NAT**, e depois, em nome coloque **NAT_ArqCorp** e na opção **sub-rede** você aponta para a **sub-rede pública**. Note que existe uma opção chamada **Tipo de conexão** que já está pré-marcada em **Público** e é isso que garante que sua sub-rede privada poderá acessar à Internet. Existe a opção também de **Alocar IP elástico**, então clique nesse botão **Alocar IP elástico** para gerar um IP elástico e daí você terá a opção como **eipalloc-xxxxxxxx**. Finalmente, clique no botão laranja para confirmar tudo.
+**5.1)** No menu vertical da VPC, clique na opção **Gateways NAT**, depois clique no botão **Criar gateway NAT**, e depois, em nome coloque **NAT_ArqCorp** e na opção **sub-rede** você aponta para a **sub-rede pública**. Note que existe uma opção chamada **Tipo de conexão** que já está pré-marcada em **Público** e é isso que garante que sua sub-rede privada poderá acessar à Internet. Existe a opção também de **Alocar IP elástico**, então clique nesse botão **Alocar IP elástico** para gerar um IP elástico e daí você terá a opção como **eipalloc-xxxxxxxx**. Finalmente, clique no botão laranja para confirmar tudo;
 
-**5.2)** Dessa forma, o NAT (uma espécia de proxy de camada 3, roteamento de pacotes) vai controlar o fluxo de acordo com a origem da conexão: conexão de origem interna é permita, conexão de origem externa não é permitida. Mas ainda temos um detalhe para definir que é criar uma rota na sua **TabRota_Privada_ArqCorp**. Então, no meu vertical esquerdo da sua VPC, clique em **Tabela de rotas**, clique no link azul **TabRota_Privada_ArqCorp** e daí, **Editar rotas**, clique no botão **Adicionar rotas**, escolha o **Destino 0.0.0.0/0** (Internet externa) e coloque em **Alvo** como **Gateway NAT** (algo do tipo assim **nat-0f1c0fbcfded07cf8** vai aparecer). **Esse item gasta-se alguns minutos para propagar e começar a funcionar.**
+**5.2)** Dessa forma, o NAT (uma espécia de proxy de camada 3, roteamento de pacotes) vai controlar o fluxo de acordo com a origem da conexão: conexão de origem interna é permita, conexão de origem externa não é permitida. Mas ainda temos um detalhe para definir que é criar uma rota na sua **TabRota_Privada_ArqCorp**. Então, no meu vertical esquerdo da sua VPC, clique em **Tabela de rotas**, clique no link azul **TabRota_Privada_ArqCorp** e daí, **Editar rotas**, clique no botão **Adicionar rotas**, escolha o **Destino 0.0.0.0/0** (Internet externa) e coloque em **Alvo** como **Gateway NAT** (algo do tipo assim **nat-0f1c0fbcfded07cf8** vai aparecer). **Esse item gasta-se alguns minutos para propagar e começar a funcionar.**;
 
 Conclusão: sem essa etapa, o EC2 privado não poderá ser atualizado, isto é, não poderá originalizar conexões para fora da VPC (Internet).
 
@@ -393,7 +393,7 @@ Conclusão: sem essa etapa, o EC2 privado não poderá ser atualizado, isto é, 
 
 Nesse passo você já deve estar ficando bom, pois já vimos EC2 em outra aula! Vamos criar 2 instâncias EC2, sendo uma na sub-rede pública e outra na sub-rede privada. O EC2 da sub-rede pública vai se comportar como **Bastion Host** e o EC2 da sub-rede privada, será seu servidor dinâmico, por exemplo.
 
-**6.1)** Buscando por EC2 na lupa do console, crie uma instância que será pública nomeando-a como **Bastion_Host_Publica_ArqCorp**, escolha **Ubuntu**, deixe como **Tipo de instância** qualificada para o nível gratuito, gere uma par de chave com o nome **PEM_EC2Publico_ArqCorp**, edite as opções de **Configurações de rede**, aponte para a **VPC_Arquitetura_Corp**, aponte para sub-rede pública recém criada, deixe **Atribuir IP público automaticamente** no **habilitar**, no **Firewall** deixe marcado a opção **Criar grupo de segurança**, coloque um nome no seu **Grupo de segurança** como **GS_EC2Publico** habilite apenas a opção do SSH e confirme no botão laranja.
+**6.1)** Buscando por EC2 na lupa do console, crie uma instância que será pública nomeando-a como **Bastion_Host_Publica_ArqCorp**, escolha **Ubuntu**, deixe como **Tipo de instância** qualificada para o nível gratuito, gere uma par de chave com o nome **PEM_EC2Publico_ArqCorp**, edite as opções de **Configurações de rede**, aponte para a **VPC_Arquitetura_Corp**, aponte para sub-rede pública recém criada, deixe **Atribuir IP público automaticamente** no **habilitar**, no **Firewall** deixe marcado a opção **Criar grupo de segurança**, coloque um nome no seu **Grupo de segurança** como **GS_EC2Publico** habilite apenas a opção do SSH e confirme no botão laranja;
 
 Mas atenção: esse IP público que você está recebendo agora nessa instância vai mudar se você desligar o EC2.
 
@@ -407,21 +407,21 @@ Confira se seu EC2 privado (que é um servidor interno) está acessível a parti
 
 **8.1)** Faça uma conexão **ssh -i** no seu Bastion Host usando o IP público (que você pega no botão **Conectar** das propriedade do EC2 externo chamado Bastion Host;
 
-**8.2)** Crie uma pasta raiz **mkdir** chamada **keys**. 
+**8.2)** Crie uma pasta raiz **mkdir** chamada **keys**;
 
-**8.3)** Dentro dessa pasta, dê um **sudo nano PEM_EC2Privado_ArqCorp.pem** para criar o arquivo PEM, copie o texto da sua chave que deve estar na sua área do seu PC, cole no arquivo, dê um **Ctrl+S** e depois um **Ctrl+X** para salvar e sair.
+**8.3)** Dentro dessa pasta, dê um **sudo nano PEM_EC2Privado_ArqCorp.pem** para criar o arquivo PEM, copie o texto da sua chave que deve estar na sua área do seu PC, cole no arquivo, dê um **Ctrl+S** e depois um **Ctrl+X** para salvar e sair;
 
-**8.4)** E dê outro **ssh -i** mas usando o endereço privado do EC2 privado. 
+**8.4)** E dê outro **ssh -i** mas usando o endereço privado do EC2 privado;
 
-**8.5)** Você deve estar dentro do EC2 interno usando o EC2 externo.
+**8.5)** Você deve estar dentro do EC2 interno usando o EC2 externo;
 
-**8.6)** Agora tente acessar o seu EC2 interno como se fosse o EC2 externo, isto é, execute o item **(8.1)** dessa passo mas usando o IP privado do botão **Conectar** do seu EC2 privado. Funcionou? Não! Por que? Seu EC2 interno possui IP público? Ele está com acesso ao IGW do EC2 externo? Não!
+**8.6)** Agora tente acessar o seu EC2 interno como se fosse o EC2 externo, isto é, execute o item **(8.1)** dessa passo mas usando o IP privado do botão **Conectar** do seu EC2 privado. Funcionou? Não! Por que? Seu EC2 interno possui IP público? Ele está com acesso ao IGW do EC2 externo? Não!;
 
 Conclusões: seu EC2 público está protegendo o EC2 interno. Você pode ter quantos EC2 internos desejar. Basta armazenar as chaves internas dentro do EC2 público. Mas cuidado com os acessos do EC2 público. Ele está como regra de entrada o 0.0.0.0/0 e isso não é legal. O correto é você colocar o IP fixo externo da sua empresa. Assim, somente os DEVOPS vão acessar esse EC2 externo.
 
-**8.7)** Outro teste é o EC2 privado não consegue acessar a Internet para se atualizar. Então o NAT Gateway precisa enchegar esse caminho para fora. Da forma que está agora, não consiguiremos atualizar nada no EC2 privado. **O segredo é assossiar o NAT Gateway à sub-rede pública** que você fez no Passo-05 **5.2**. 
+**8.7)** Outro teste é o EC2 privado não consegue acessar a Internet para se atualizar. Então o NAT Gateway precisa enchegar esse caminho para fora. Da forma que está agora, não consiguiremos atualizar nada no EC2 privado. **O segredo é assossiar o NAT Gateway à sub-rede pública** que você fez no Passo-05 **5.2**;
 
-**8.8)** **Tente atualizar o Ubuntu do seu EC2 interno** que vai dar certo [sudo apt-get update]. E se você tentar acessar o EC2 privado usando qualquer IP (público ou privado), não vai funcionar porque o NAT Gateway só permite o fluxo de dentro para fora e não de fora para dentro.
+**8.8)** **Tente atualizar o Ubuntu do seu EC2 interno** que vai dar certo [sudo apt-get update]. E se você tentar acessar o EC2 privado usando qualquer IP (público ou privado), não vai funcionar porque o NAT Gateway só permite o fluxo de dentro para fora e não de fora para dentro;
 
 ## Conceito Importante sobre imagem do EC2:
 
@@ -451,21 +451,21 @@ Ter uma abordagem de **Gold Image** é especialmente benéfico em ambientes em n
 
 Esse S3 serve para você adicionar seu site estático e não arquivos corporativos da sua empresa, ou logs de acesso, ou dados de clientes, pois esse S3 estará visível na Internet. Se você precisa de um S3 mais seguro, crie outro dentro da VPC. Deixar um S3 visível na Internet é o principal motivo de vazamento de dados sensíveis ou pessoal.
 
-**9.1)** Digite S3 na lupa do console.
+**9.1)** Digite S3 na lupa do console;
 
-**9.2)** Clique em **Criar bucket** (botão laranja).
+**9.2)** Clique em **Criar bucket** (botão laranja);
 
-**9.3)** No campo **Nome do bucket** digite algor parecido com **s3_arqcoporativa** (os nomes de buckets são exclusivos mundialmente porque possuem URL exclusivas, logo você terá que criar o seu nome exlusivo). Mas atenção: não pode ter letras maiúsculas e nem começar o nome com número.
+**9.3)** No campo **Nome do bucket** digite algor parecido com **s3_arqcoporativa** (os nomes de buckets são exclusivos mundialmente porque possuem URL exclusivas, logo você terá que criar o seu nome exlusivo). Mas atenção: não pode ter letras maiúsculas e nem começar o nome com número;
 
-**9.4)** Em região, aponte para o **us-east-1**.
+**9.4)** Em região, aponte para o **us-east-1**;
 
-**9.5)** Deixa todas as demais configurações básicas como estão e clique no botão laranja **Criar bucket**.
+**9.5)** Deixa todas as demais configurações básicas como estão e clique no botão laranja **Criar bucket**;
 
-**9.6)** Retorne em suas instâncias de buckets e clique no bucket que você acabou de criar (link azul) para configurá-los. Note que ele está como **Bucket e objetos não públicos**.
+**9.6)** Retorne em suas instâncias de buckets e clique no bucket que você acabou de criar (link azul) para configurá-los. Note que ele está como **Bucket e objetos não públicos**;
 
-**9.6.1)** Dentro das configurações do Bucket, procure pela aba **Propriedades**, vá até o final da página e em **Hospedagem de site estático**, clique em **Editar** e depois, **ativar**.
+**9.6.1)** Dentro das configurações do Bucket, procure pela aba **Propriedades**, vá até o final da página e em **Hospedagem de site estático**, clique em **Editar** e depois, **ativar**;
 
-**9.6.2)** Em **Tipo de hospedagem** deixe em **Hospedar um site estático**.
+**9.6.2)** Em **Tipo de hospedagem** deixe em **Hospedar um site estático**;
 
 **9.6.3)** Em **Documento de índice** coloque o nome do arquivo-fonte do seu site, que nesse caso, pode ser **index.html**. Você deve salvar esse código abaixo em arquivo texto tipo *html* e vai usar numa etapa futura, não agora. Então, apenas salve esse código num arquivo **index.html** aí no seu HD local.
 
@@ -482,13 +482,13 @@ Esse S3 serve para você adicionar seu site estático e não arquivos corporativ
 
 ```
 
-**9.6.4)** No campo **Documento de erro - opcional** você pode deixar em branco ou elaborar uma página personalizada para quando der um erro em seu site ou até usar a mesma arquivo **index.html**. Para hoje, deixe esse campo em branco
+**9.6.4)** No campo **Documento de erro - opcional** você pode deixar em branco ou elaborar uma página personalizada para quando der um erro em seu site ou até usar a mesma arquivo **index.html**. Para hoje, deixe esse campo em branco;
 
-**9.6.5)** Clique no botão laranja no final da página para confirmar.
+**9.6.5)** Clique no botão laranja no final da página para confirmar;
 
-**9.6.6)** Se você retornar em **Propriedades** após a confirmação, você terá o link do seu S3 instanciado, algo assim: **http://arquiteturacorp.s3-website-us-east-1.amazonaws.com/**, e se você clicar nesse link, constará **erro 403 Forbidden, Code: AccessDenied**.
+**9.6.6)** Se você retornar em **Propriedades** após a confirmação, você terá o link do seu S3 instanciado, algo assim: **http://arquiteturacorp.s3-website-us-east-1.amazonaws.com/**, e se você clicar nesse link, constará **erro 403 Forbidden, Code: AccessDenied**;
 
-**9.7)** Você pode carregar um arquivo qualquer no seu S3, clicando em **Objetos**. E ainda pode criar uma pasta qualquer chamada **Teste**. Então, suba um arquivo qualquer e crie uma pasta qualquer em seu S3. Veja a figura a seguir que demonstra como fica o seu HD virtual lá na AWS.
+**9.7)** Você pode carregar um arquivo qualquer no seu S3, clicando em **Objetos**. E ainda pode criar uma pasta qualquer chamada **Teste**. Então, suba um arquivo qualquer e crie uma pasta qualquer em seu S3. Veja a figura a seguir que demonstra como fica o seu HD virtual lá na AWS;
 
 **9.8)** Você precisa liberar acesso ao público do S3. Vá no botão **Permissões**, depois em **Bloquear acesso público (configurações do bucket)** clique em **Editar**, depois desmarque **Bloquear todo o acesso público** e **Salvar alterações** e digite **confirmar**.
 
