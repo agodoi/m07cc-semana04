@@ -309,22 +309,24 @@ O RDS é compatível com muitas ferramentas e aplicativos que são usados com ba
 
 **1.2)** Clique no botão laranja CRIAR;
 
-**1.3)** Selecione **Somente VPC**;
+**1.3)** Selecione **Somente VPC**
 
-**1.4)** No campo **Tag de nome** digite **VPC_Arquitetura_Corp**;
+**1.4)** No campo **Tag de nome** digite **VPC_Arquitetura_Corp**
 
-**1.5)** Bloco CIDR IPV4 digite **192.168.0.0/22**;
+**1.5)** Bloco CIDR IPV4 digite **192.168.0.0/22**
 
 **1.6)** As demais opções, você não precisa mexer e basta confirmar no botão laranja.
+
+**Atenção:** caso apareça algum alerta vermelho referente ao **Grupos de regras do Firewall de DNS do resolvedor do Route 53** ignore essa falha.
 
 # Passo-02: Criando as sub-redes
 ## sub-rede pública
 
 **2.1)** No menu vertical da VPC, clique em **sub-redes** e então, clique no botão laranja **Criar sub-redes** e aponte para a VPC corporativa que acabou de criar **VPC_Arquitetura_Corp**;
 
-**2.2)** No campo **Nome da sub-rede** coloque **Sub_Publica_a**;
+**2.2)** No campo **Nome da sub-rede** coloque **Sub_Publica_a**
 
-**2.3)** Em **Zona de disponibilidade** deixe **us-east-1a**;
+**2.3)** Em **Zona de disponibilidade** deixe **us-east-1a**
 
 **2.4)** Em **Bloco CIDR IPV4** coloque um IP que esteja dentro da faixa da rede da VPC que você criou, então, **digite 192.168.0.0/24**. Essa faixa está dentro da faixa maior 192.168.0.0/22. Vamos discutir o mapa de endereçamento numa instrução futura. Aguente firme! Clique no botão laranja;
 
@@ -355,7 +357,7 @@ Até agora, você só criou os nomes das Tabelas de Rotas que não sabem o que f
 
 **3.4)** Vamos agora associar as Tabelas de Rotas com as sub-redes propriamente ditas;
 
-**3.4.1)** Clique no link azul da tabela de rotas privada **TabRota_Privada_ArqCorp**, vá na aba **Associação de sub-rede**, clique no botão **Editar associações de sub-rede** e selecione a sub-rede privada **Sub_Privada_b** e confirme no botão laranja;
+**3.4.1)** Clique no link azul da tabela de rotas privada **TabRota_Privada_ArqCorp**. Se você não está vendo esse nome, volte no passo (3.3). Seguindo, vá na aba **Associação de sub-rede**, clique no botão **Editar associações de sub-rede** e selecione a sub-rede privada **Sub_Privada_b** e confirme no botão laranja;
 
 **3.4.2)** Faça o mesmo para a tabela de rotas pública **TabRota_Publica_ArqCorp**, clicando em seu link azul, depois indo na aba **Associação de sub-rede**, clicando no botão **Editar associações de sub-rede** e selecione a sub-rede privada **Sub_Publica_a** e confirme no botão laranja.
 
@@ -366,11 +368,11 @@ Portanto, agora suas Tabelas de Rotas já possuem as devidas sub-redes.
 
 Esse elemento de rede resolve como sua rede pública vai encontrar a Internet.
 
-**4.1)** Para criar uma saída para Internet da sub-rede pública, vá no menu vertical esquerdo da VPC, clique em **Gateways da Internet**, depois **Criar gateway da Internet** e em **Tag name** digite **IGW_ArqCorp** e confirme no botão laranja. Cuidado agora! Você precisa associar o seu IGW à VPC_Arquitetura_Corp. Então clique no botão verde que vai aparecer na barra superior ou volte no menu vertical esquerdo, liste o seu **Gateways da Internet**, vá no botão **Ações**, selecione **Associar à VPC** e escolha a VPC recém criada e confirma no botão laranja;
+**4.1)** Para criar uma saída para Internet da sub-rede pública, vá no menu vertical esquerdo da VPC, clique em **Gateways da Internet**. Caso você observe um IGW sem nome na lista, ignore-o, pois vamos criar o nosso. Clique em **Criar gateway da Internet** e em **Tag name** digite **IGW_ArqCorp** e confirme no botão laranja. Cuidado a partir de agora! Você precisa associar o seu IGW à VPC_Arquitetura_Corp. Então clique no **botão verde** que vai aparecer na barra superior ou volte no menu vertical esquerdo, liste o seu **Gateways da Internet**, vá no botão **Ações**, selecione **Associar à VPC** e escolha a VPC recém criada e confirma no botão laranja;
 
 Agora, vamos atualizar as rotas de entrada e saída ou regras de entrada e saída.
 
-**4.2)** Volte na tabela de rotas **TabRota_Publica_ArqCorp** para indicar as regras de entrada e saída da sua VPC. Então, vá no menu esquerdo vertical, clique em **Tabela de Rotas** e escolha a **TabRota_Publica_ArqCorp**, e depois, vá na aba **Rotas**. Já existe uma rota padrão interna 192.168.0.0/22 mas isso não dá acesso externo à sua VPC e sim, somente acesso interno. Clique em **Editar rota**, depois **Adicionar rota** e selecione em **destino** 0.0.0.0/0 (que significa qualquer lugar) e em **alvo** você seleciona **Gateway da Internet** e daí vai aparecer a sua o **IGW_ArqCorp**, daí vc o seleciona e coloque para salvar no botão laranja;
+**4.2)** Agora, vamos resolver um detalhe importante: indicar as regras de entrada e saída da sua VPC. Pra isso, vá no menu esquerdo vertical, clique em **Tabela de Rotas** e escolha a **TabRota_Publica_ArqCorp**, e depois, vá na aba **Rotas**. Já existe uma rota padrão interna 192.168.0.0/22 mas isso não dá acesso externo à sua VPC e sim, somente acesso interno. Clique em **Editar rota**, depois **Adicionar rota** e selecione em **destino** 0.0.0.0/0 (que significa qualquer lugar) e em **alvo** você seleciona **Gateway da Internet** (cuidado para não se confundir e pegar "Gateway da Internet somente saída") e daí vai aparecer a sua o **IGW_ArqCorp**, daí vc o seleciona e coloque para salvar no botão laranja;
 
 Portanto, todas as instância com IP público dentro do sub-rede pública terão conexão com a Internet a partir de agora. Caso um EC2 seja criado nessa sub-rede com IP privado, ainda continuará sem conexão externa.
 
@@ -382,7 +384,7 @@ Agora vamos resolver o acesso à Internet da sub-rede privada, porém, acesso de
 
 **5.1)** No menu vertical da VPC, clique na opção **Gateways NAT**, depois clique no botão **Criar gateway NAT**, e depois, em nome coloque **NAT_ArqCorp** e na opção **sub-rede** você aponta para a **sub-rede pública**. Note que existe uma opção chamada **Tipo de conexão** que já está pré-marcada em **Público** e é isso que garante que sua sub-rede privada poderá acessar à Internet. Existe a opção também de **Alocar IP elástico**, então clique nesse botão **Alocar IP elástico** para gerar um IP elástico e daí você terá a opção como **eipalloc-xxxxxxxx**. Finalmente, clique no botão laranja para confirmar tudo;
 
-**5.2)** Dessa forma, o NAT (uma espécia de proxy de camada 3, roteamento de pacotes) vai controlar o fluxo de acordo com a origem da conexão: conexão de origem interna é permita, conexão de origem externa não é permitida. Mas ainda temos um detalhe para definir que é criar uma rota na sua **TabRota_Privada_ArqCorp**. Então, no meu vertical esquerdo da sua VPC, clique em **Tabela de rotas**, clique no link azul **TabRota_Privada_ArqCorp** e daí, **Editar rotas**, clique no botão **Adicionar rotas**, escolha o **Destino 0.0.0.0/0** (Internet externa) e coloque em **Alvo** como **Gateway NAT** (algo do tipo assim **nat-0f1c0fbcfded07cf8** vai aparecer). **Esse item gasta-se alguns minutos para propagar e começar a funcionar.**;
+**5.2)** Dessa forma, o NAT (uma espécia de proxy de camada 3, roteamento de pacotes) vai controlar o fluxo de acordo com a origem da conexão: conexão de origem interna é permitida, conexão de origem externa não é permitida. Mas ainda temos um detalhe para definir que é criar uma rota na sua **TabRota_Privada_ArqCorp**. Então, no meu vertical esquerdo da sua VPC, clique em **Tabela de rotas**, clique no link azul **TabRota_Privada_ArqCorp** e daí, **Editar rotas**, clique no botão **Adicionar rotas**, escolha o **Destino 0.0.0.0/0** (Internet externa) e coloque em **Alvo** como **Gateway NAT** (algo do tipo assim **nat-0f1c0fbcfded07cf8** vai aparecer). **Esse item gasta-se alguns minutos para propagar e começar a funcionar.**;
 
 Conclusão: sem essa etapa, o EC2 privado não poderá ser atualizado, isto é, não poderá originalizar conexões para fora da VPC (Internet).
 
