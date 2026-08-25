@@ -4,9 +4,7 @@ Nessa instrução, vamos explorar a arquitetura corporativa (apresentada na imag
 
 ## Ganho para o Projeto
 
-Nessa instrução, vamos entender como o projeto da venda de ingressos pode ser arquitetado de modo profissional e real, e que permita a disponibilidade robusta do banco de dados do estoque de telefones entre as milhares de lojas, permitindo a rápida consulta no momento das vendas.
-
-A seguir, você vai entender porque criar cada elemento da arquitetura corporativa no seu projeto.
+Nessa instrução, vamos entender como o sistema inteligente de detecção de falhas do Globoplay pode ser estruturado em uma arquitetura corporativa escalável, segura e altamente disponível. 
 
 ## Arquitetura e Elementos 
 
