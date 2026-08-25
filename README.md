@@ -576,7 +576,7 @@ Para fazer um teste, acesse o link do seu S3 e verá que o erro terá mudado ago
 
 Agora você pode atualizar o seu link do S3 que o seu site estático estará no ar.
 
-# Passo-10: Criando uma CloudFront
+# Passo-10: Criando uma CloudFront [É PAGO, NÃO DISPONÍVEL NO LEARNER LAB, PULE]
 ## Serve para manter dados do site em cache, aumentar velocidade e minimizar latências ao redor do mundo
 
 Sua principal função é melhorar a velocidade e a disponibilidade de entrega de conteúdo, como imagens, vídeos, scripts e outros arquivos, aos usuários finais em diferentes regiões do mundo.
