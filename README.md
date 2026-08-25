@@ -491,6 +491,8 @@ Esse S3 serve para você adicionar seu site estático e não arquivos corporativ
 
 **9.8)** Você precisa liberar acesso ao público do S3. Vá no botão **Permissões**, depois em **Bloquear acesso público (configurações do bucket)** clique em **Editar**, depois desmarque **Bloquear todo o acesso público** e **Salvar alterações** e digite **confirmar**.
 
+<img src="https://github.com/agodoi/ARQUITETURA/blob/main/imgs/objetos.png" width="1000">
+
 
 <picture>
    <source media="(prefers-color-scheme: light)" srcset="https://github.com/agodoi/ARQUITETURA/blob/main/imgs/objetos.png">
