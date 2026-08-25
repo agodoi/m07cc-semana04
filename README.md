@@ -542,13 +542,6 @@ Copie e cole esse JSON na tela editável de política e ajuste as linha **"Id":*
 
 Depois de pronto, clique no botão amarelo/laranja para salvar. 
 
-<picture>
-   <source media="(prefers-color-scheme: light)" srcset="https://github.com/agodoi/ArquiteturaCorp/blob/main/imgs/gerador_politica-2.png">
-   <img alt="Gerador de Política" src="[YOUR-DEFAULT-IMAGE](https://github.com/agodoi/ArquiteturaCorp/blob/main/imgs/gerador_politica-2.png)">
-</picture>
-
-Vá na aba **Permissões** do seu Bucket, clique em **Política do bucket** e cole esse JSON lá e confirme no SALVAR. Veja a figura a seguir para entender melhor.
-
 ### Observe que seu bucket agora está público, e com um ícone de atenção.
 
 Para fazer um teste, acesse o link do seu S3 e verá que o erro terá mudado agora. Ele está acessível externamente, mas não tem o arquivo **index.html**. Veja a imagem a seguir para entender melhor.
@@ -560,7 +553,7 @@ Para fazer um teste, acesse o link do seu S3 e verá que o erro terá mudado ago
 </picture>
 
 
-**9.12)** Agora, basta você colocar um arquivo index.html dentro do seu S3 como se fosse um objeto. Arraste o seu index.html para dentro e salva. Veja a imagem de como fica no final:
+**9.11)** Agora, basta você colocar um arquivo index.html dentro do seu S3 como se fosse um objeto. Arraste o seu index.html para dentro e salva. Veja a imagem de como fica no final:
 
 
 <picture>
