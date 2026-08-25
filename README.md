@@ -39,11 +39,11 @@ A VPC é uma rede virtual definida por você dentro da infra da AWS que permite 
 
 ### 2. Disponibilidade:
 
-Uma VPC é um recurso regional e pode abranger várias Zonas de Disponibilidade dentro da mesma região. Entretanto, cada sub-rede pertence exclusivamente a uma única Zona de Disponibilidade. Por isso, para aumentar a disponibilidade da aplicação, devemos criar sub-redes em zonas diferentes e distribuir os recursos entre elas. As zonas são identificadas por letras, como ```us-east-1a```, ```us-east-1b``´ e ```us-east-1c```.
+Uma VPC é um recurso regional e pode abranger várias Zonas de Disponibilidade dentro da mesma região. Entretanto, cada sub-rede pertence exclusivamente a uma única Zona de Disponibilidade. Por isso, para aumentar a disponibilidade da aplicação, devemos criar sub-redes em zonas diferentes e distribuir os recursos entre elas. As zonas são identificadas por letras, como ```us-east-1a```, ```us-east-1b``` e ```us-east-1c```.
 
 ### 3. Conectividade:
 
-Dentro da VPC, vamos criar um IGW (Internet Gateway), que permite a comunicação entre instâncias na VPC e a Internet externa. Depois de criar a VPC, vamos adicionar sub-redes dentro de uma mesma zona de disponibilidade. Se o tráfego de uma sub-rede for roteado para um gateway da Internet, a sub-rede será chamada de *sub-rede pública*. Se a sub-rede não tiver uma rota para o gateway da Internet, ele será chamada de *sub-rede privada*.
+Dentro da VPC, vamos criar um IGW (Internet Gateway), que permite a comunicação entre os recursos da VPC e a Internet. Depois de criar a VPC, vamos adicionar sub-redes distribuídas entre diferentes **Zonas de Disponibilidade**. Se o tráfego de uma sub-rede for roteado para um Internet Gateway, ela será considerada uma sub-rede pública. Se não possuir uma rota direta para o Internet Gateway, será considerada uma **sub-rede privada**.
 
 **O assistente também criará um gateway NAT (Network Address Translation ou Conversão de Endereços de Rede) que é usado para fornecer conectividade com a Internet para instâncias do EC2 nas sub-redes privadas, mas a Internet não consegue acessar a instância EC2.**
 
