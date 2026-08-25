@@ -667,11 +667,17 @@ A arquitetura atual já possui duas sub-redes em zonas diferentes, mas somente u
 Depois de criar a nova sub-rede:
 
 **12.1)** Associe-a a uma tabela de rotas privada.
+
 **12.2)** No console do RDS, acesse Grupos de sub-redes.
+
 **12.3)** Crie um DB Subnet Group associado à VPC_Arquitetura_Corp.
+
 **12.4)** Adicione as duas sub-redes privadas localizadas em zonas diferentes.
+
 **12.5)** Crie um grupo de segurança exclusivo para o banco.
+
 **12.6)** Permita a porta do mecanismo escolhido somente quando a origem for o grupo de segurança dos servidores da aplicação.
+
 **12.7)** Ao criar o RDS, selecione o DB Subnet Group, desabilite o acesso público e mantenha o banco nas sub-redes privadas.
 
 O Internet Gateway e o NAT Gateway não são requisitos para que um RDS privado receba conexões dos servidores da aplicação. A comunicação entre EC2 e RDS ocorre internamente pela VPC.
