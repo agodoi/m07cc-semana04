@@ -394,7 +394,7 @@ Nesse passo você já deve estar ficando bom, pois já vimos EC2 em outra aula! 
 
 **6.1)** Buscando por EC2 na lupa do console, crie uma instância que será pública nomeando-a como **Bastion_Host_Publica_ArqCorp**, escolha **Ubuntu**, deixe como **Tipo de instância** qualificada para o nível gratuito, gere uma par de chave com o nome **PEM_EC2Publico_ArqCorp**, edite as opções de **Configurações de rede**, aponte para a **VPC_Arquitetura_Corp**, aponte para sub-rede pública recém criada, deixe **Atribuir IP público automaticamente** no **habilitar**, no **Firewall** deixe marcado a opção **Criar grupo de segurança**, coloque um nome no seu **Grupo de segurança** como **GS_EC2Publico** habilite apenas a opção do SSH e confirme no botão laranja;
 
-Mas atenção: esse IP público que você está recebendo agora nessa instância vai mudar se você desligar o EC2.
+Mas atenção: esse IP público que você está recebendo agora nessa instância pode mudar se você desligar o EC2.
 
 ## Passo-07: Criando outro EC2 - Servidor (privado)
 
@@ -416,7 +416,7 @@ Confira se seu EC2 privado (que é um servidor interno) está acessível a parti
 
 **8.6)** Agora tente acessar o seu EC2 interno como se fosse o EC2 externo, isto é, execute o item **(8.1)** dessa passo mas usando o IP privado do botão **Conectar** do seu EC2 privado. Funcionou? Não! Por que? Seu EC2 interno possui IP público? Ele está com acesso ao IGW do EC2 externo? Não!;
 
-Conclusões: seu EC2 público está protegendo o EC2 interno. Você pode ter quantos EC2 internos desejar. Basta armazenar as chaves internas dentro do EC2 público. Mas cuidado com os acessos do EC2 público. Ele está como regra de entrada o 0.0.0.0/0 e isso não é legal. O correto é você colocar o IP fixo externo da sua empresa. Assim, somente os DEVOPS vão acessar esse EC2 externo.
+Conclusões: seu EC2 público está protegendo o EC2 interno. Ele é um ponto intermediário entre você e os vários EC2 internos que desejar. O acesso ao Bastion deve ser limitado a endereços autorizados e complementado por controles de identidade, registros de acesso e monitoramento. Não é uma boa prática armazenar as chaves dos EC2 internos dentro do EC2 público, mas hoje, vamos fazer isso para facilitar a didática. Lembre-se a regra de entrada o 0.0.0.0/0 é muito perigosa. O correto é você colocar o IP fixo externo da sua empresa. Assim, somente os DEVOPS vão acessar esse EC2 externo **(Bastião)**.
 
 **8.7)** Outro teste é o EC2 privado não consegue acessar a Internet para se atualizar. Então o NAT Gateway precisa enchegar esse caminho para fora. Da forma que está agora, não consiguiremos atualizar nada no EC2 privado. **O segredo é assossiar o NAT Gateway à sub-rede pública** que você fez no Passo-05 **5.2**;
 
@@ -448,7 +448,7 @@ Ter uma abordagem de **Gold Image** é especialmente benéfico em ambientes em n
 # Passo-09: Criando um serviço S3
 ## Por padrão, todo S3 é totalmente bloqueado. Sua função agora é liberar as devidas funções dele.
 
-Esse S3 serve para você adicionar seu site estático e não arquivos corporativos da sua empresa, ou logs de acesso, ou dados de clientes, pois esse S3 estará visível na Internet. Se você precisa de um S3 mais seguro, crie outro dentro da VPC. Deixar um S3 visível na Internet é o principal motivo de vazamento de dados sensíveis ou pessoal.
+Esse S3 serve para você adicionar seu site estático e não arquivos corporativos da sua empresa, ou logs de acesso, ou dados de clientes, pois esse S3 estará visível na Internet. Se você precisa armazenar dados corporativos, logs ou informações de clientes, mantenha o bucket privado e controle o acesso por meio de políticas do S3 e do IAM. Recursos da VPC podem acessar o S3 privadamente por meio de um VPC Endpoint, sem que o bucket seja criado dentro da VPC. Deixar um S3 visível na Internet é o principal motivo de vazamento de dados sensíveis ou pessoal.
 
 **9.1)** Digite S3 na lupa do console;
 
@@ -487,7 +487,7 @@ Esse S3 serve para você adicionar seu site estático e não arquivos corporativ
 
 **9.6.6)** Se você retornar em **Propriedades** após a confirmação, você terá o link do seu S3 instanciado, algo assim: **http://arquiteturacorp.s3-website-us-east-1.amazonaws.com/**, e se você clicar nesse link, constará **erro 403 Forbidden, Code: AccessDenied**;
 
-**9.7)** Você pode carregar um arquivo qualquer no seu S3, clicando em **Objetos**. E ainda pode criar uma pasta qualquer chamada **Teste**. Então, suba um arquivo qualquer e crie uma pasta qualquer em seu S3. Veja a figura a seguir que demonstra como fica o seu HD virtual lá na AWS;
+**9.7)** Você pode carregar qualquer arquivo no seu S3, clicando em **Objetos**. E ainda pode criar uma pasta qualquer chamada **Teste**. Então, suba um arquivo qualquer e crie uma pasta qualquer em seu S3. Veja a figura a seguir que demonstra como fica o seu HD virtual lá na AWS;
 
 **9.8)** Você precisa liberar acesso ao público do S3. Vá no botão **Permissões**, depois em **Bloquear acesso público (configurações do bucket)** clique em **Editar**, depois desmarque **Bloquear todo o acesso público** e **Salvar alterações** e digite **confirmar**.
 
@@ -513,7 +513,7 @@ Agora, vá novamente na sua lista de Buckets e veja como está o **Acesso** na f
    <img alt="Podem Ser Públicos" src="[YOUR-DEFAULT-IMAGE](https://github.com/agodoi/ARQUITETURA/blob/main/imgs/podem_ser_publicos.png)">
 </picture>
 
-**9.10)** Agora, vamos gerar uma **Apólice do bucket**, que vai liberar os acessos ao seu S3. Para isso, clique em **Permissões** do seu bucket e em, **Política do bucket**, clique em **Editar** e depois **Gerador de Apólices**. Daí você vai ver uma tela como a seguir:
+**9.10)** Agora, vamos gerar uma **Política do bucket**, que vai liberar os acessos ao seu S3. Para isso, clique em **Permissões** do seu bucket e em, **Política do bucket**, clique em **Editar** e depois **Gerador de Apólices**. Daí você vai ver uma tela como a seguir:
 
 
 <picture>
@@ -597,7 +597,7 @@ Ao usar o CloudFront, os arquivos são armazenados em pontos de presença globai
 
 As demais configurações, como em **Viewer** e **Viewer protocol policy**, você poderia marcar a opçção **Redirect HTTP to HTTPS** caso você quisesse forçar toda a conexão do seu site para HTTPS, mas para isso, você precisa do certificado validado sobre o seu domínio comprado na goDaddy, por exemplo.
 
-Em **Allowed HTTP methods**, você pode deixar o GET, HEAD, mas se fosse para executar um CRUD, terá que colocar a opção **GET, HEAD, OPTIONS, PUT, POST, PATCH, DELETE**.
+Em **Allowed HTTP methods**, você pode deixar o GET, HEAD. Como a origem utilizada nesta prática é o endpoint de hospedagem de site do S3, mantenha somente os métodos GET e HEAD. Esse endpoint não executa operações de escrita. Para implementar um CRUD, seria necessário utilizar uma API ou o endpoint REST do S3, juntamente com autenticação, autorização e políticas adequadas.
 
 Se você tiver um certicado validado, puxe esse certificado na opção **Custom SSL certificate - optional**.
 
