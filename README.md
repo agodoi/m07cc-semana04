@@ -15,7 +15,7 @@ Nessa instrução, vamos entender como o sistema inteligente de detecção de fa
 
 ### Diagrama de Implantação UML (disponível em [UMLetino](https://umletino.com/umletino.html))
 
-<img src="https://github.com/agodoi/m07-semana04/blob/main/imgs/m07-semana04.png" width="800">
+<img src="https://github.com/agodoi/m07-semana04/blob/main/imgs/m07-semana04.png" width="600">
 
 
 * Route 53 é o conversor do link S3 ou EC2 interno AWS (com vários caracteres) para um DNS amigável que você compra na Internet. A definição clássica é: o Amazon Route 53 é um serviço de DNS que permite associar nomes de domínio aos endpoints dos recursos da aplicação, como CloudFront e Application Load Balancer. Também oferece políticas de roteamento e verificações de integridade.
@@ -497,19 +497,9 @@ Esse S3 serve para você adicionar seu site estático e não arquivos corporativ
 
 <img src="https://github.com/agodoi/ARQUITETURA/blob/main/imgs/confirmacao_desbloqueio.png" width="800">
 
-<picture>
-   <source media="(prefers-color-scheme: light)" srcset="https://github.com/agodoi/ARQUITETURA/blob/main/imgs/confirmacao_desbloqueio.png">
-   <img alt="Confirmação" src="[YOUR-DEFAULT-IMAGE](https://github.com/agodoi/ARQUITETURA/blob/main/imgs/confirmacao_desbloqueio.png)">
-</picture>
-
 Agora, vá novamente na sua lista de Buckets e veja como está o **Acesso** na frente do seu bucket. Ele deve estar assim: **Os objetos podem ser públicos**, igual ao da imagem abaixo, então o S3 ainda não é público, mas pode ser...
 
 <img src="https://github.com/agodoi/ARQUITETURA/blob/main/imgs/podem_ser_publicos.png" width="800">
-
-<picture>
-   <source media="(prefers-color-scheme: light)" srcset="https://github.com/agodoi/ARQUITETURA/blob/main/imgs/podem_ser_publicos.png">
-   <img alt="Podem Ser Públicos" src="[YOUR-DEFAULT-IMAGE](https://github.com/agodoi/ARQUITETURA/blob/main/imgs/podem_ser_publicos.png)">
-</picture>
 
 **9.10)** Agora, vamos gerar uma **Política do bucket**, que vai liberar os acessos ao seu S3. Para isso, clique em **Permissões** do seu bucket e em, **Política do bucket**. Você deve criar um JSON igual a esse abaixo, mas ajustando algumas linhas:
 
@@ -547,21 +537,9 @@ Para fazer um teste, acesse o link do seu S3 e verá que o erro terá mudado ago
 <img src="https://github.com/agodoi/ARQUITETURA/blob/main/imgs/erro404-sem-indexHTML.png" width="800">
 
 
-<picture>
-   <source media="(prefers-color-scheme: light)" srcset="https://github.com/agodoi/ARQUITETURA/blob/main/imgs/erro404-sem-indexHTML.png">
-   <img alt="Gerador de Política" src="[YOUR-DEFAULT-IMAGE](https://github.com/agodoi/ARQUITETURA/blob/main/imgs/erro404-sem-indexHTML.png)">
-</picture>
-
-
 **9.11)** Agora, basta você colocar um arquivo index.html dentro do seu S3 como se fosse um objeto. Arraste o seu index.html para dentro e salva. Veja a imagem de como fica no final:
 
 <img src="https://github.com/agodoi/ARQUITETURA/blob/main/imgs/index-html-S3.png" width="800">
-
-
-<picture>
-   <source media="(prefers-color-scheme: light)" srcset="https://github.com/agodoi/ARQUITETURA/blob/main/imgs/index-html-S3.png">
-   <img alt="Gerador de Política" src="[YOUR-DEFAULT-IMAGE](https://github.com/agodoi/ARQUITETURA/blob/main/imgs/index-html-S3.png)">
-</picture>
 
 Agora você pode atualizar o seu link do S3 que o seu site estático estará no ar.
 
