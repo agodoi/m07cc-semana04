@@ -10,7 +10,7 @@ Nessa instrução, vamos entender como o sistema inteligente de detecção de fa
 
 
 ### Infográfico de Fluxo de Serviços AWS
-<img src="https://github.com/agodoi/ArquiteturaCorp/blob/main/imgs/Slide1.PNG" width="1000">
+<img src="https://github.com/agodoi/ArquiteturaCorp/blob/main/imgs/Slide1.PNG" width="800">
 
 
 ### Diagrama de Implantação UML (disponível em [UMLetino](https://umletino.com/umletino.html))
