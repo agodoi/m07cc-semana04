@@ -1,10 +1,10 @@
 # ARQUITETURA CORPORATIVA
 
-Nessa instrução, vamos explorar a arquitetura corporativa (apresentada na imagem a seguir), que suporta aplicações Web escaláveis de forma a atender milhares a milhões de usuários contemplando também a segurança destas aplicações utilizando um único ponto de contato (load balancer), e como fazer o gerenciamento de fluxos de trabalho escaláveis (load balancer).
+Nessa instrução, vamos explorar uma arquitetura corporativa para aplicações web escaláveis, capaz de atender de milhares a milhões de usuários. Serão abordados aspectos de segurança, distribuição de tráfego, alta disponibilidade, armazenamento e processamento de dados. Nessa arquitetura, o balanceador de carga funcionará como ponto de entrada da aplicação dinâmica, encaminhando as requisições para os servidores considerados saudáveis.
 
 ## Ganho para o Projeto
 
-Nessa instrução, vamos entender como o sistema inteligente de detecção de falhas do Globoplay pode ser estruturado em uma arquitetura corporativa escalável, segura e altamente disponível. 
+Nessa instrução, vamos entender como o sistema inteligente de detecção de falhas do Globoplay pode ser estruturado em uma arquitetura corporativa escalável, segura e altamente disponível. Os componentes estudados poderão apoiar a recepção, o processamento, o armazenamento e a disponibilização das métricas utilizadas para identificar comportamentos fora do funcionamento esperado e apoiar as equipes de desenvolvimento e operações. 
 
 ## Arquitetura e Elementos 
 
@@ -18,13 +18,13 @@ Nessa instrução, vamos entender como o sistema inteligente de detecção de fa
 <img src="https://github.com/agodoi/m07-semana04/blob/main/imgs/m07-semana04.png" width="800">
 
 
-* Route 53 é o conversor do link S3 ou EC2 interno AWS (com vários caracteres) para um DNS amigável que você compra na Internet.
+* Route 53 é o conversor do link S3 ou EC2 interno AWS (com vários caracteres) para um DNS amigável que você compra na Internet. A definição clássica é: o Amazon Route 53 é um serviço de DNS que permite associar nomes de domínio aos endpoints dos recursos da aplicação, como CloudFront e Application Load Balancer. Também oferece políticas de roteamento e verificações de integridade.
 
 * CloudFront serve para deixar sua aplicação em *cache* ao redor do mundo.
 
-* O S3 vai se comportar como um servidor, mas será estático (HTML e JS), isto é, e no EC2, teremos a parte dinâmica do site (caso exista). Contudo, o S3 na arquitetura corporativa se posiciona tanto um serviço de armazenamento de dados quanto um site estático, porém, não adote o mesmo S3 para ambas finalidades. Adote mais de um S3.
+* O Amazon S3 é um serviço de armazenamento de objetos que também pode hospedar o conteúdo estático de uma aplicação, como arquivos HTML, CSS, JavaScript e imagens. A parte dinâmica da aplicação poderá ser executada em instâncias EC2. Embora um mesmo bucket possa armazenar diferentes tipos de objetos, recomenda-se separar os buckets de acordo com sua finalidade, seus requisitos de segurança e suas políticas de acesso.
    
-* O ALB (Amazon Load Balance), ou ELB (Elastic Load Balance) é um distribuidor de cargas e acessos.
+* O Elastic Load Balancing (ELB) é o serviço de balanceamento de carga da AWS. O Application Load Balancer (ALB) é um dos tipos disponíveis e distribui requisições HTTP e HTTPS entre destinos saudáveis, como instâncias EC2, endereços IP e contêineres.
   
 * O Bastion Host atua como um único ponto de acesso público para administrar a sua rede privada com os EC2s. Você acessa o Bastion host e depois você abre uma conexão SSH com o respectivo EC2 dentro da AWS. Portanto, o Bastion Host se posiciona na sub-rede pública para ter acesso à sub-rede privada. 
   
@@ -35,7 +35,7 @@ Nessa instrução, vamos entender como o sistema inteligente de detecção de fa
 
 ### 1. Rede Virtual Segura:
 
-A VPC é uma rede virtual definida por você dentro da infra da AWS que permite executar, praticamente, todos os recursos disponíveis na AWS. Contudo, por exemplo, Amazon Route 53, Amazon CloudFront e AWS Direct Connect geralmente ficam de fora da VPC porque são serviços que se conectam para fora da AWS.
+A VPC é uma rede virtual definida por você dentro da infra da AWS que permite executar, praticamente, todos os recursos disponíveis na AWS. Alguns serviços da AWS, como Route 53 e CloudFront, não são implantados diretamente nas sub-redes da VPC, pois possuem escopo global ou regional próprio. Outros serviços podem se integrar aos recursos da VPC por meio de endpoints, interfaces de rede, gateways ou configurações específicas.
 
 ### 2. Disponibilidade:
 
@@ -47,20 +47,20 @@ Dentro da VPC, vamos criar um IGW (Internet Gateway), que permite a comunicaçã
 
 **O assistente também criará um gateway NAT (Network Address Translation ou Conversão de Endereços de Rede) que é usado para fornecer conectividade com a Internet para instâncias do EC2 nas sub-redes privadas, mas a Internet não consegue acessar a instância EC2.**
 
-Outro ponto importante é que a *VPC default* criada pelo AWS quando você instancia um EC2 pela primeira vez, possui até 6 sub-redes e todas são públicas. Nenhuma é privada. Isso significa que todos os itens que você colocar nessa VPC default estará visível na Internet. Por que 6 subnets? Porque temos o AZ-Multi em operação oferecendo alta disponibilidade na AWS e no caso do Norte da Virgínia, são criadas 6 zonas: a, b, c, d, e, f. Na região de São Paulo, são criadas 3 zonas: a, b, c.
+Outro ponto importante é que a *VPC default* criada pelo AWS quando você instancia um EC2 pela primeira vez, possui até 6 sub-redes. No Learner Lab e suas políticas, elas estão todas públicas. Nenhuma é privada, mas isso não é um padrão. Isso significa que todos os itens que você colocar nessa VPC default estará visível na Internet. Por que 6 subnets? Porque temos o AZ-Multi em operação oferecendo alta disponibilidade na AWS e no caso do Norte da Virgínia, são criadas 6 zonas: a, b, c, d, e, f. Na região de São Paulo, são criadas 3 zonas: a, b, c.
 
-O que é um AZ? É um data center isolado ou separado física e geograficamente por X quilômetros, 100km por exemplo (esse dado é sigiloso, não sabemos). Caso falhe um data center, você terá disponibilidade em outro.
+O que é um AZ? Uma Zona de Disponibilidade, ou AZ, é formada por um ou mais data centers fisicamente separados, com infraestrutura independente de energia, rede e conectividade. As zonas de uma mesma região são separadas por uma distância significativa, mas interligadas por redes de baixa latência. A distribuição dos recursos entre diferentes zonas reduz o impacto de falhas localizadas.
 
-Caso você queira ter mais de uma VPC, a regra básica é que o range de IPs entre elas não se sobreponham.
+Caso as VPCs precisem se comunicar por meio de VPC Peering, Transit Gateway, VPN ou outra forma de roteamento, planeje blocos CIDR sem sobreposição. VPCs independentes podem utilizar faixas sobrepostas, mas isso dificulta ou impede sua interconexão futura.
 
-Caso queira excluir sua VPC, primeiro exclua a respectiva Interface de Internet (IGW). Você deve buscar por **IGW**, fazer a desassociação e a sua exclusão, e depois, excluir e VPC desejada.
+Para excluir uma VPC, primeiro remova os recursos que ainda dependem dela, como instâncias EC2, interfaces de rede, NAT Gateways, load balancers, endpoints e sub-redes. O Internet Gateway também deverá ser desassociado e excluído antes da remoção da VPC.
 
 ## Por que criar um AWS Route 53 no seu Projeto?
 
 É um **serviço** com 3 importantes funções:
 
 ### 1. Registra nomes de domínio
-Seu site/banco de dados precisa de um nome, como example.com. O Route 53 permite que você registre um nome para seu site ou aplicação Web, conhecido como um nome de domínio.
+Uma aplicação pode utilizar um domínio personalizado, como example.com, para facilitar o acesso dos usuários. O Route 53 permite registrar domínios ou gerenciar seus registros DNS. Serviços como RDS, ALB e CloudFront já fornecem endpoints próprios, mesmo quando não existe um domínio personalizado.
 
 ### 2. Roteia tráfego de Internet para os recursos do seu domínio
 Quando um usuário abre um navegador da Web e informa seu nome de domínio (example.com) ou nome de subdomínio (acme.example.com) na barra de endereços, o Route 53 ajuda a conectar o navegador com o site ou a aplicação Web.
@@ -248,7 +248,7 @@ O RDS gerencia tarefas operacionais complexas, como provisionamento de hardware,
 
 ### 2. Escalabilidade Vertical e Horizontal: 
 
-O RDS permite dimensionar verticalmente (aumentar recursos da instância) e horizontalmente (adicionar réplicas de leitura) para lidar com o aumento da carga de trabalho, garantindo o desempenho e a disponibilidade do banco de dados.
+O RDS permite o dimensionamento vertical por meio da alteração da classe da instância. Para cargas intensivas de leitura, alguns mecanismos permitem criar réplicas de leitura, distribuindo consultas de leitura entre diferentes instâncias. Esse recurso não representa, necessariamente, escalabilidade horizontal das operações de escrita.
 
 ### 3. Backup e Recuperação Automatizados: 
 
@@ -256,11 +256,11 @@ O RDS oferece backups automáticos diários e permite a retenção de backups po
 
 ### 4. Alta Disponibilidade e Failover: 
 
-O RDS permite criar réplicas de leitura para distribuir a carga de leitura e fornecer redundância. Além disso, em bancos de dados multi-AZ, o RDS automaticamente realiza failover para uma instância de backup em caso de falhas na instância primária.
+As réplicas de leitura são utilizadas principalmente para distribuir consultas de leitura e, normalmente, recebem os dados de forma assíncrona. Para alta disponibilidade e failover automático, utiliza-se uma implantação Multi-AZ, na qual o RDS mantém uma instância secundária sincronizada e pode promovê-la em caso de falha da instância principal.
 
 ### 5. Atualizações de Software Gerenciadas: 
 
-O RDS gerencia automaticamente as atualizações de software e patches do banco de dados, permitindo que você mantenha seus bancos de dados atualizados sem interrupções significativas.
+O RDS automatiza parte das atualizações de software e dos patches do banco de dados. Algumas operações podem causar indisponibilidade temporária, dependendo do mecanismo, da atualização e da configuração de alta disponibilidade utilizada.
 
 ### 6. Segurança Avançada: 
 
@@ -332,8 +332,7 @@ O RDS é compatível com muitas ferramentas e aplicativos que são usados com ba
 
 **2.5)** Repetindo os passos para criar a Rede Privada, no menu vertical da VPC, clique em **sub-redes** e então, aponte para a VPC corporativa que acabou de criar **VPC_Arquitetura_Corp**;
 
-**2.6)** No campo **Nome da sub-rede** coloque **Sub_Privada_b**. Note que você está apontado para uma zona diferente da sua sub-rede pública. É uma estratégia para 
-[alta disponibilidade](https://github.com/agodoi/VocabularioAWS);
+**2.6)** No campo **Nome da sub-rede** coloque **Sub_Privada_b**. A sub-rede privada será criada em uma zona diferente da sub-rede pública. Essa separação demonstra a distribuição de recursos entre zonas, mas ainda não garante alta disponibilidade. Para isso, cada camada da arquitetura deverá possuir recursos equivalentes em pelo menos duas Zonas de Disponibilidade.. É uma estratégia para [alta disponibilidade](https://github.com/agodoi/VocabularioAWS);
 
 **2.7)** Em **Zona de disponibilidade** deixe **us-east-1b**;
 
@@ -368,7 +367,7 @@ Esse elemento de rede resolve como sua rede pública vai encontrar a Internet.
 
 **4.1)** Para criar uma saída para Internet da sub-rede pública, vá no menu vertical esquerdo da VPC, clique em **Gateways da Internet**. Caso você observe um IGW sem nome na lista, ignore-o, pois vamos criar o nosso. Clique em **Criar gateway da Internet** e em **Tag name** digite **IGW_ArqCorp** e confirme no botão laranja. Cuidado a partir de agora! Você precisa associar o seu IGW à VPC_Arquitetura_Corp. Então clique no **botão verde** que vai aparecer na barra superior ou volte no menu vertical esquerdo, liste o seu **Gateways da Internet**, vá no botão **Ações**, selecione **Associar à VPC** e escolha a VPC recém criada e confirma no botão laranja;
 
-Agora, vamos atualizar as rotas de entrada e saída ou regras de entrada e saída.
+Agora, vamos atualizar as tabelas de rotas (entrada e saída) que determinam as regras de entrada e saída.
 
 **4.2)** Agora, vamos resolver um detalhe importante: indicar as regras de entrada e saída da sua VPC. Pra isso, vá no menu esquerdo vertical, clique em **Tabela de Rotas** e escolha a **TabRota_Publica_ArqCorp**, e depois, vá na aba **Rotas**. Já existe uma rota padrão interna 192.168.0.0/22 mas isso não dá acesso externo à sua VPC e sim, somente acesso interno. Clique em **Editar rota**, depois **Adicionar rota** e selecione em **destino** 0.0.0.0/0 (que significa qualquer lugar) e em **alvo** você seleciona **Gateway da Internet** (cuidado para não se confundir e pegar "Gateway da Internet somente saída") e daí vai aparecer a sua o **IGW_ArqCorp**, daí vc o seleciona e coloque para salvar no botão laranja;
 
