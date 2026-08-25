@@ -491,17 +491,11 @@ Esse S3 serve para você adicionar seu site estático e não arquivos corporativ
 
 **9.8)** Você precisa liberar acesso ao público do S3. Vá no botão **Permissões**, depois em **Bloquear acesso público (configurações do bucket)** clique em **Editar**, depois desmarque **Bloquear todo o acesso público** e **Salvar alterações** e digite **confirmar**.
 
-<img src="https://github.com/agodoi/ARQUITETURA/blob/main/imgs/objetos.png" width="1000">
-
-
-<picture>
-   <source media="(prefers-color-scheme: light)" srcset="https://github.com/agodoi/ARQUITETURA/blob/main/imgs/objetos.png">
-   <img alt="Objetos" src="[YOUR-DEFAULT-IMAGE](https://github.com/agodoi/ARQUITETURA/blob/main/imgs/objetos.png)">
-</picture>
-
+<img src="https://github.com/agodoi/ARQUITETURA/blob/main/imgs/objetos.png" width="800">
 
 **9.8)** Nessa etapa, vamos definir as permissões de acesso ao S3. Por padrão, ele totalmente bloqueado. Clique na aba **Permissões** e perceba que em **Visão geral das permissões** que está como **bucket e objetos não públicos**. Isso significa que o seu S3 ou site não está visível externamente. Então, em **Bloquear acesso público**, você clica em **Editar** e desmarque a opção **Bloquear todo o acesso público** e clique no botão laranja **Salvar alterações**. Note que aparecerá uma tela de confirmação novamente, conforme abaixo, onde você vai ter que digitar **confirmar**. Note que os vazamentos de dados ocorrem devido às configurações erradas e não *sem querer querendo*.
 
+<img src="https://github.com/agodoi/ARQUITETURA/blob/main/imgs/confirmacao_desbloqueio.png" width="800">
 
 <picture>
    <source media="(prefers-color-scheme: light)" srcset="https://github.com/agodoi/ARQUITETURA/blob/main/imgs/confirmacao_desbloqueio.png">
@@ -509,6 +503,8 @@ Esse S3 serve para você adicionar seu site estático e não arquivos corporativ
 </picture>
 
 Agora, vá novamente na sua lista de Buckets e veja como está o **Acesso** na frente do seu bucket. Ele deve estar assim: **Os objetos podem ser públicos**, igual ao da imagem abaixo, então o S3 ainda não é público, mas pode ser...
+
+<img src="https://github.com/agodoi/ARQUITETURA/blob/main/imgs/podem_ser_publicos.png" width="800">
 
 <picture>
    <source media="(prefers-color-scheme: light)" srcset="https://github.com/agodoi/ARQUITETURA/blob/main/imgs/podem_ser_publicos.png">
@@ -548,6 +544,8 @@ Depois de pronto, clique no botão amarelo/laranja para salvar.
 
 Para fazer um teste, acesse o link do seu S3 e verá que o erro terá mudado agora. Ele está acessível externamente, mas não tem o arquivo **index.html**. Veja a imagem a seguir para entender melhor.
 
+<img src="https://github.com/agodoi/ARQUITETURA/blob/main/imgs/erro404-sem-indexHTML.png" width="800">
+
 
 <picture>
    <source media="(prefers-color-scheme: light)" srcset="https://github.com/agodoi/ARQUITETURA/blob/main/imgs/erro404-sem-indexHTML.png">
@@ -556,6 +554,8 @@ Para fazer um teste, acesse o link do seu S3 e verá que o erro terá mudado ago
 
 
 **9.11)** Agora, basta você colocar um arquivo index.html dentro do seu S3 como se fosse um objeto. Arraste o seu index.html para dentro e salva. Veja a imagem de como fica no final:
+
+<img src="https://github.com/agodoi/ARQUITETURA/blob/main/imgs/index-html-S3.png" width="800">
 
 
 <picture>
