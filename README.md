@@ -39,7 +39,7 @@ A VPC é uma rede virtual definida por você dentro da infra da AWS que permite 
 
 ### 2. Disponibilidade:
 
-Uma VPC pode abranger várias zonas de disponibilidade. Cuidado! Cada VPC precisa estar numa zona diferente. As zonas são indicadas por letras a, b, c, d ... etc
+Uma VPC é um recurso regional e pode abranger várias Zonas de Disponibilidade dentro da mesma região. Entretanto, cada sub-rede pertence exclusivamente a uma única Zona de Disponibilidade. Por isso, para aumentar a disponibilidade da aplicação, devemos criar sub-redes em zonas diferentes e distribuir os recursos entre elas. As zonas são identificadas por letras, como ```us-east-1a```, ```us-east-1b``´ e ```us-east-1c```.
 
 ### 3. Conectividade:
 
@@ -661,10 +661,12 @@ Seu ELB está praticamente pronto, basta fazer a conexão de saúde com uma apli
 
 ## Passo-12: Criando o RDS
 
-Para criar o RDS, você precisa criar uma VPC com 2 zonas como vimos na aula já explorada: [EC2-RDS](https://github.com/agodoi/EC2-RDS). 
+Para criar o RDS, você precisa criar uma VPC com 2 sub-redes como vimos na aula já explorada: [EC2-RDS](https://github.com/agodoi/EC2-RDS). 
 
-Portanto, para o seu RDS funcionar, essa VPC de hoje não terá suporte, porque criamos apenas 1 zona.
+Portanto, para o seu RDS funcionar, essa VPC criada até agora não não suporta o RDS, porque criamos apenas 1 sub-rede.
 
-**Mas calma! Antes de surtar** e descobrir que seu serviço de hoje foi em vão e não suporta o RDS, existe um passo que cria a VPC + IGW + NAT + 2 subRedes Privadas + 2 subRedes Públicas automaticamente. 
+**Mas calma! Antes de surtar** e descobrir que seu serviço de hoje foi em vão e não suporta o RDS, existe um passo que cria a VPC + IGW + NAT + 2 sub-redes privadas + 2 sub-redes públicas **automaticamente**. 
 
 Vá em **VPC** e crie uma nova **VPC**, mas clique em **VPC e muito mais** e coloque algumas configurações eventualmente solicitadas iguais às configurações dos Passos 1 e 2. 
+
+Portanto, o banco pode ser implantado na VPC_Arquitetura_Corp, desde que ela possua um grupo de sub-redes de banco de dados formado por pelo menos duas sub-redes localizadas em Zonas de Disponibilidade diferentes. Como a arquitetura atual possui apenas uma sub-rede privada, será necessário criar uma segunda sub-rede privada em outra zona e, depois, reunir as duas em um DB Subnet Group.
