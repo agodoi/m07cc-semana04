@@ -658,14 +658,20 @@ Todas as requisições externas da sua arquitetura vão entrar em um ELB para de
 
 Seu ELB está praticamente pronto, basta fazer a conexão de saúde com uma aplicação rodando em EC2. Veremos isso numa instrução futura. Caso já queira resolver essa etapa hoje ainda, abra esse [vídeo](https://www.youtube.com/watch?v=8vcrE0FojKY) na posição 15min e assita.
 
-## Passo-12: Criando o RDS
+## Passo-12: Criando o RDS [DESAFIO DA AULA]
 
-Para criar o RDS, você precisa criar uma VPC com 2 sub-redes como vimos na aula já explorada: [EC2-RDS](https://github.com/agodoi/EC2-RDS). 
+Não é necessário criar uma segunda VPC para utilizar o Amazon RDS. O banco poderá ser implantado na **VPC_Arquitetura_Corp**, desde que exista um DB Subnet Group contendo sub-redes localizadas em pelo menos duas Zonas de Disponibilidade diferentes.
 
-Portanto, para o seu RDS funcionar, essa VPC criada até agora não não suporta o RDS, porque criamos apenas 1 sub-rede.
+A arquitetura atual já possui duas sub-redes em zonas diferentes, mas somente uma delas é privada. Para manter o banco isolado da Internet e preparado para alta disponibilidade, crie uma segunda sub-rede privada em outra Zona de Disponibilidade.
 
-**Mas calma! Antes de surtar** e descobrir que seu serviço de hoje foi em vão e não suporta o RDS, existe um passo que cria a VPC + IGW + NAT + 2 sub-redes privadas + 2 sub-redes públicas **automaticamente**. 
+Depois de criar a nova sub-rede:
 
-Vá em **VPC** e crie uma nova **VPC**, mas clique em **VPC e muito mais** e coloque algumas configurações eventualmente solicitadas iguais às configurações dos Passos 1 e 2. 
+**12.1)** Associe-a a uma tabela de rotas privada.
+**12.2)** No console do RDS, acesse Grupos de sub-redes.
+**12.3)** Crie um DB Subnet Group associado à VPC_Arquitetura_Corp.
+**12.4)** Adicione as duas sub-redes privadas localizadas em zonas diferentes.
+**12.5)** Crie um grupo de segurança exclusivo para o banco.
+**12.6)** Permita a porta do mecanismo escolhido somente quando a origem for o grupo de segurança dos servidores da aplicação.
+**12.7)** Ao criar o RDS, selecione o DB Subnet Group, desabilite o acesso público e mantenha o banco nas sub-redes privadas.
 
-Portanto, o banco pode ser implantado na VPC_Arquitetura_Corp, desde que ela possua um grupo de sub-redes de banco de dados formado por pelo menos duas sub-redes localizadas em Zonas de Disponibilidade diferentes. Como a arquitetura atual possui apenas uma sub-rede privada, será necessário criar uma segunda sub-rede privada em outra zona e, depois, reunir as duas em um DB Subnet Group.
+O Internet Gateway e o NAT Gateway não são requisitos para que um RDS privado receba conexões dos servidores da aplicação. A comunicação entre EC2 e RDS ocorre internamente pela VPC.
